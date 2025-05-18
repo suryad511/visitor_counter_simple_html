@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Room Visitor Counter</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body>
+  <h1>Room Visitor Counter</h1>
+  <p><strong>Visitor In:</strong> <span id="in"></span></p>
+  <p><strong>Visitor Out:</strong> <span id="out"></span></p>
+  <p><strong>Currently Inside:</strong> <span id="count"></span></p>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY", // optional, for database rules
+      authDomain: "counter-esp8266.firebaseapp.com",
+      databaseURL: "https://counter-esp8266-default-rtdb.firebaseio.com",
+      projectId: "counter-esp8266",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function updateDisplay(id, value) {
+      document.getElementById(id).textContent = value;
+    }
+
+    db.ref("Data/Visitor in").on("value", snapshot => {
+      updateDisplay("in", snapshot.val());
+    });
+
+    db.ref("Data/Visitor out").on("value", snapshot => {
+      updateDisplay("out", snapshot.val());
+    });
+
+    db.ref("Data/Currently inside").on("value", snapshot => {
+      updateDisplay("count", snapshot.val());
+    });
+  </script>
+</body>
+</html>
